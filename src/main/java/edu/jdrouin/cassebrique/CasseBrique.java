@@ -1,7 +1,7 @@
 package edu.jdrouin.cassebrique;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 public class CasseBrique extends Canvas {
 
@@ -33,46 +33,49 @@ public class CasseBrique extends Canvas {
     public void demarrer() throws InterruptedException {
 
         long indexFrame = 0;
-
-        int[] vitesseHorizontaleBalle = -5;
-        int vitesseVerticaleBalle = 4;
-        int diametreBalle = 150;
-        int diametrePetiteBalle = diametreBalle * 30/100;
-        int decalagePetiteBalle = diametreBalle * 20/100;
-        int[] xBalle = 500 - diametreBalle;
-        int[] yBalle = 500 - diametreBalle;
+        int xBalle = 250;
+        int yBalle = 250;
+        int vitesseHorizontalBalle = -4;
+        int vitesseVerticalBalle = 6;
+        int diametreBalle = 50;
+        int diametreRefletBalle = diametreBalle * 30 / 100;
+        //ou alors : int diametreRefletBalle = diametreBalle * O.3f;
+        int decalageReflet = diametreBalle * 20 / 100;
 
         while(true) {
             indexFrame ++;
             Graphics2D dessin = (Graphics2D) getBufferStrategy().getDrawGraphics();
 
-            //-----------------------------------------------
-            // reset dessin par un panneau blanc
+            //-----------------------------
+            //reset dessin
             dessin.setColor(Color.WHITE);
-            dessin.fillRect(0, 0, 500, 500);
+            dessin.fillRect(0,0,500,500);
 
-            // dessin balle rouge
-            dessin.setColor(Color.MAGENTA);
-            dessin.fillOval(xBalle, yBalle, diametreBalle, diametreBalle);
-
-            // dessin 2eme balle blanche
+            //dessin balle
+            xBalle += vitesseHorizontalBalle;
+            yBalle += vitesseVerticalBalle;
+            dessin.setColor(Color.RED);
+            dessin.fillOval(xBalle,yBalle, diametreBalle,diametreBalle);
             dessin.setColor(Color.WHITE);
-            dessin.fillOval(xBalle+decalagePetiteBalle, yBalle+decalagePetiteBalle, diametrePetiteBalle, diametrePetiteBalle);
+            dessin.fillOval(
+                    xBalle + decalageReflet,
+                    yBalle + decalageReflet,
+                    diametreRefletBalle,
+                    diametreRefletBalle);
 
             //mouvement balle
-            xBalle += vitesseHorizontaleBalle;
-            yBalle += vitesseVerticaleBalle;
-            if(yBalle < 0 || yBalle > 500 - diametreBalle){
-                vitesseVerticaleBalle *= -1;
-            }
-            if(xBalle < 0 || xBalle > 500 - diametreBalle){
-                vitesseHorizontaleBalle *= -1;
+            if(xBalle < 0 || xBalle > 500 - diametreBalle) {
+                vitesseHorizontalBalle *= -1;
+                //vitesseHorizontalBalle = vitesseHorizontalBalle * -1
             }
 
-            //-----------------------------------------------
+            if(yBalle < 0 || yBalle > 500 - diametreBalle) {
+                vitesseVerticalBalle *= -1;
+            }
+
+            //-----------------------------
             dessin.dispose();
             getBufferStrategy().show();
-
             Thread.sleep(1000 / 60);
         }
     }
