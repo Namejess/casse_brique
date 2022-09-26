@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class CasseBrique extends Canvas {
 
     protected int largeurEcran = 500;
@@ -41,14 +42,17 @@ public class CasseBrique extends Canvas {
         ArrayList<Balle> listeBalle = new ArrayList<Balle>();
 
         for (int i = 0; i <= 100; i ++){
-                listeBalle.add(new Balle(
-                Utils.nombreRandom(250, 500),
-                Utils.nombreRandom(250, 500),
-                Utils.nombreRandom(1, 6),
-                Utils.nombreRandom(1, 6),
-                Utils.nombreRandom(5, 40),
-                new Color((float) Math.random(), (float) Math.random(), (float) Math.random())));
-
+                listeBalle.add(
+                    new Balle(
+                        Utils.nombreRandom(250, 500),
+                        Utils.nombreRandom(250, 500),
+                        Utils.nombreRandom(1, 6),
+                        Utils.nombreRandom(1, 6),
+                        Utils.nombreRandom(5, 40),
+                    new Color(
+                        (float) Math.random(),
+                        (float) Math.random(),
+                        (float) Math.random())));
         }
 
         while(true) {
@@ -57,18 +61,15 @@ public class CasseBrique extends Canvas {
 
             //-----------------------------
             //reset dessin
-            dessin.setColor(Color.BLACK);
             dessin.fillRect(0,0,largeurEcran,hauteurEcran);
 
             //dessin balle
-
             for (Balle balle : listeBalle){
-
-                balle.deplacer();
+                balle.dessinerPoint(dessin);
                 balle.dessiner(dessin);
+                balle.deplacer();
                 balle.testCollision(largeurEcran, hauteurEcran);
             }
-
 
             //-----------------------------
             dessin.dispose();

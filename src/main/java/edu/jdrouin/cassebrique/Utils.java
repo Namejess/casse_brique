@@ -1,5 +1,7 @@
 package edu.jdrouin.cassebrique;
 
+import java.awt.*;
+
 public class Utils {
 
     public Utils() {
@@ -8,10 +10,12 @@ public class Utils {
     public static int nombreRandom(int min, int max) {
 
         if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
+            throw new IllegalArgumentException();
         }
 
         return (int) (Math.random() * max + min);
     }
+
+
 
 }
