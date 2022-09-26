@@ -2,6 +2,7 @@ package edu.jdrouin.cassebrique;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class CasseBrique extends Canvas {
 
@@ -37,14 +38,18 @@ public class CasseBrique extends Canvas {
     public void demarrer() throws InterruptedException {
 
         long indexFrame = 0;
+        ArrayList<Balle> listeBalle = new ArrayList<Balle>();
 
-        Balle balle = new Balle(
-                250,
-                350,
-                4,
-                -6,
-                30,
-                Color.GREEN);
+        for (int i = 0; i <= 100; i ++){
+                listeBalle.add(new Balle(
+                Utils.nombreRandom(250, 500),
+                Utils.nombreRandom(250, 500),
+                Utils.nombreRandom(1, 6),
+                Utils.nombreRandom(1, 6),
+                Utils.nombreRandom(5, 40),
+                new Color((float) Math.random(), (float) Math.random(), (float) Math.random())));
+
+        }
 
         while(true) {
             indexFrame ++;
@@ -52,14 +57,18 @@ public class CasseBrique extends Canvas {
 
             //-----------------------------
             //reset dessin
-            dessin.setColor(Color.WHITE);
+            dessin.setColor(Color.BLACK);
             dessin.fillRect(0,0,largeurEcran,hauteurEcran);
 
             //dessin balle
-            balle.deplacer();
-            balle.dessiner(dessin);
 
-            balle.testCollision(largeurEcran, hauteurEcran);
+            for (Balle balle : listeBalle){
+
+                balle.deplacer();
+                balle.dessiner(dessin);
+                balle.testCollision(largeurEcran, hauteurEcran);
+            }
+
 
             //-----------------------------
             dessin.dispose();

@@ -1,6 +1,7 @@
 package edu.jdrouin.cassebrique;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Balle {
 
@@ -14,14 +15,24 @@ public class Balle {
     protected Color couleur;
 
 
-    public Balle(int x, int y, int vitesseHorizontal, int vitesseVertical, int diametre, Color couleur) {
-        this.x = x;
-        this.y = y;
+    public Balle(double x, double y, int vitesseHorizontal, int vitesseVertical, int diametre, Color couleur) {
+        this.x = (int) x;
+        this.y = (int) y;
         this.vitesseHorizontal = vitesseHorizontal;
         this.vitesseVertical = vitesseVertical;
         this.couleur = couleur;
         this.setDiametre(diametre);
     }
+
+    public static int nombreRandom(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        return (int) (Math.random() * max + min);
+    }
+
 
     public void testCollision(int largeurEcran, int hauteurEcran){
         if(x < 0 || x > largeurEcran - diametre) {
@@ -44,6 +55,7 @@ public class Balle {
     public void inverseVitesseHorizontal(){
         vitesseHorizontal *= -1;
     }
+
 
     public void dessiner (Graphics2D dessin){
         dessin.setColor(couleur);
