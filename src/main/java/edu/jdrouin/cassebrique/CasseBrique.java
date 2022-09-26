@@ -33,34 +33,41 @@ public class CasseBrique extends Canvas {
     public void demarrer() throws InterruptedException {
 
         long indexFrame = 0;
-        int xBalle = 500;
-        int yBalle = 500;
-        int vitesseHorizontaleBalle = -2;
-        int vitesseVerticaleBalle = 2;
+
+        int[] vitesseHorizontaleBalle = -5;
+        int vitesseVerticaleBalle = 4;
+        int diametreBalle = 150;
+        int diametrePetiteBalle = diametreBalle * 30/100;
+        int decalagePetiteBalle = diametreBalle * 20/100;
+        int[] xBalle = 500 - diametreBalle;
+        int[] yBalle = 500 - diametreBalle;
 
         while(true) {
             indexFrame ++;
             Graphics2D dessin = (Graphics2D) getBufferStrategy().getDrawGraphics();
 
             //-----------------------------------------------
-
-            dessin.setColor(Color.WHITE); // reset dessin par un panneau blanc
+            // reset dessin par un panneau blanc
+            dessin.setColor(Color.WHITE);
             dessin.fillRect(0, 0, 500, 500);
 
-            //dessin balle
+            // dessin balle rouge
+            dessin.setColor(Color.MAGENTA);
+            dessin.fillOval(xBalle, yBalle, diametreBalle, diametreBalle);
 
+            // dessin 2eme balle blanche
+            dessin.setColor(Color.WHITE);
+            dessin.fillOval(xBalle+decalagePetiteBalle, yBalle+decalagePetiteBalle, diametrePetiteBalle, diametrePetiteBalle);
+
+            //mouvement balle
             xBalle += vitesseHorizontaleBalle;
-
-            if(xBalle < 0 || xBalle > 500){
-               vitesseHorizontaleBalle *= -1;
-            }
-
-            if(yBalle < 0 || yBalle > 500){
+            yBalle += vitesseVerticaleBalle;
+            if(yBalle < 0 || yBalle > 500 - diametreBalle){
                 vitesseVerticaleBalle *= -1;
             }
-
-            dessin.setColor(Color.MAGENTA); // dessin balle rouge
-            dessin.fillOval(xBalle, 235, 30, 30);
+            if(xBalle < 0 || xBalle > 500 - diametreBalle){
+                vitesseHorizontaleBalle *= -1;
+            }
 
             //-----------------------------------------------
             dessin.dispose();
