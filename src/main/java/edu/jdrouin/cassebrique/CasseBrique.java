@@ -33,12 +33,38 @@ public class CasseBrique extends Canvas {
     public void demarrer() throws InterruptedException {
 
         long indexFrame = 0;
+        int xBalle = 500;
+        int yBalle = 500;
+        int vitesseHorizontaleBalle = -2;
+        int vitesseVerticaleBalle = 2;
 
         while(true) {
             indexFrame ++;
+            Graphics2D dessin = (Graphics2D) getBufferStrategy().getDrawGraphics();
 
-            System.out.println(indexFrame);
+            //-----------------------------------------------
 
+            dessin.setColor(Color.WHITE); // reset dessin par un panneau blanc
+            dessin.fillRect(0, 0, 500, 500);
+
+            //dessin balle
+
+            xBalle += vitesseHorizontaleBalle;
+
+            if(xBalle < 0 || xBalle > 500){
+               vitesseHorizontaleBalle *= -1;
+            }
+
+            if(yBalle < 0 || yBalle > 500){
+                vitesseVerticaleBalle *= -1;
+            }
+
+            dessin.setColor(Color.MAGENTA); // dessin balle rouge
+            dessin.fillOval(xBalle, 235, 30, 30);
+
+            //-----------------------------------------------
+            dessin.dispose();
+            getBufferStrategy().show();
 
             Thread.sleep(1000 / 60);
         }
