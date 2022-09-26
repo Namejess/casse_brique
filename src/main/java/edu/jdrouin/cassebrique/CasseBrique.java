@@ -5,13 +5,17 @@ import java.awt.*;
 
 public class CasseBrique extends Canvas {
 
+    protected int largeurEcran = 500;
+    protected int hauteurEcran = 700;
+
+
     public CasseBrique() throws InterruptedException {
         JFrame fenetre = new JFrame("Casse brique");
         //On récupère le panneau de la fenetre principale
         JPanel panneau = (JPanel) fenetre.getContentPane();
         //On définie la hauteur / largeur de l'écran
-        panneau.setPreferredSize(new Dimension(500, 500));
-        setBounds(0, 0, 500,500);
+        panneau.setPreferredSize(new Dimension(largeurEcran, hauteurEcran));
+        setBounds(0, 0, largeurEcran,hauteurEcran);
         //On ajoute cette classe (qui hérite de Canvas) comme composant du panneau principal
         panneau.add(this);
 
@@ -33,9 +37,10 @@ public class CasseBrique extends Canvas {
     public void demarrer() throws InterruptedException {
 
         long indexFrame = 0;
+
         Balle balle = new Balle(
                 250,
-                250,
+                350,
                 4,
                 -6,
                 30,
@@ -48,33 +53,13 @@ public class CasseBrique extends Canvas {
             //-----------------------------
             //reset dessin
             dessin.setColor(Color.WHITE);
-            dessin.fillRect(0,0,500,500);
+            dessin.fillRect(0,0,largeurEcran,hauteurEcran);
 
             //dessin balle
-            balle.setX(balle.getX() + balle.getVitesseHorizontal());
-            balle.setY(balle.getY() + balle.getVitesseVertical());
-            dessin.setColor(balle.getCouleur());
-            dessin.fillOval(
-                    balle.getX(),
-                    balle.getY(),
-                    balle.getDiametre(),
-                    balle.getDiametre());
+            balle.deplacer();
+            balle.dessiner(dessin);
 
-            dessin.setColor(Color.WHITE);
-            dessin.fillOval(
-                    balle.getX() + balle.getDecalageReflet(),
-                    balle.getY() + balle.getDecalageReflet(),
-                    balle.getDiametreReflet(),
-                    balle.getDiametreReflet());
-
-            //mouvement balle
-            if(balle.getX() < 0 || balle.getX() > 500 - balle.diametre) {
-                balle.setVitesseHorizontal(balle.getVitesseHorizontal() * -1);
-            }
-
-            if(balle.getY() < 0 || balle.getY() > 500 - balle.getDiametre()) {
-                balle.setVitesseVertical(balle.getVitesseVertical() * -1);
-            }
+            balle.testCollision(largeurEcran, hauteurEcran);
 
             //-----------------------------
             dessin.dispose();

@@ -23,6 +23,36 @@ public class Balle {
         this.setDiametre(diametre);
     }
 
+    public void testCollision(int largeurEcran, int hauteurEcran){
+        if(x < 0 || x > largeurEcran - diametre) {
+            inverseVitesseHorizontal();
+        }
+
+        if(y < 0 || y > hauteurEcran - diametre) {
+            inverseVitesseVertical();
+        }
+    }
+
+    public void deplacer (){
+        x += vitesseHorizontal;
+        y += vitesseVertical;
+    }
+    public void inverseVitesseVertical(){
+        vitesseVertical *= -1;
+    }
+
+    public void inverseVitesseHorizontal(){
+        vitesseHorizontal *= -1;
+    }
+
+    public void dessiner (Graphics2D dessin){
+        dessin.setColor(couleur);
+        dessin.fillOval(x, y, diametre, diametre);
+        dessin.setColor(Color.WHITE);
+        dessin.fillOval(x + decalageReflet, y + decalageReflet, diametreReflet, diametreReflet);
+    }
+
+
     public int getX() {
         return x;
     }
