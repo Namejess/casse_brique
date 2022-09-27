@@ -27,18 +27,13 @@ public class Balle {
         this.setListePoints(getListePoints());
     }
 
-    public Balle(int x, int y, int vitesseHorizontal, int vitesseVertical, int diametre) {
+    public Balle(int x, int y, int diametre) {
         this.x = x;
         this.y = y;
-        this.vitesseHorizontal = vitesseHorizontal;
-        this.vitesseVertical = vitesseVertical;
         this.diametre = diametre;
     }
 
-    public Balle(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+
 
     public void testCollision(int largeurEcran, int hauteurEcran){
         if(x < 0 || x > largeurEcran - diametre) {
@@ -77,18 +72,15 @@ public class Balle {
     public void dessinerPoint (Graphics2D dessin) {
 
         indexFrame ++;
-        Balle points = new Balle(x, y, vitesseHorizontal, vitesseVertical, diametre);
 
-        if(indexFrame % 10 == 0){
+        if(indexFrame % 10 == 0 && vitesseVertical != 0 && vitesseHorizontal != 0){
+            Balle points = new Balle(x, y, diametre);
             listePoints.add(points);
         }
 
         for (Balle point : listePoints) {
-
             dessin.setColor(Color.WHITE);
             dessin.fillOval(point.x, point.y, point.diametre, point.diametre);;
-            point.vitesseHorizontal = 0;
-            point.vitesseVertical = 0;
         }
     }
 
