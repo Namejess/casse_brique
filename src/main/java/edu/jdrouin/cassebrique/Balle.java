@@ -3,7 +3,7 @@ package edu.jdrouin.cassebrique;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Balle {
+public class Balle extends Utils{
 
     protected int x;
     protected int y;
@@ -13,6 +13,9 @@ public class Balle {
     protected int diametreReflet;
     protected int decalageReflet;
     protected Color couleur;
+    protected Color couleurTransparente = new Color(255, 255,255, 100);
+
+
     protected ArrayList<Balle> listePoints = new ArrayList<>();
 
     protected long indexFrame = 0;
@@ -32,8 +35,6 @@ public class Balle {
         this.y = y;
         this.diametre = diametre;
     }
-
-
 
     public void testCollision(int largeurEcran, int hauteurEcran){
         if(x < 0 || x > largeurEcran - diametre) {
@@ -68,6 +69,17 @@ public class Balle {
                 diametreReflet);
     }
 
+    public Color getTransparentColor(Color couleurTransparente){
+        int alpha = getListePoints().get(0).couleurTransparente.getAlpha();
+        int red = getListePoints().get(0).couleurTransparente.getRed();
+        int green = getListePoints().get(0).couleurTransparente.getGreen();
+        int blue = getListePoints().get(0).couleurTransparente.getBlue();
+
+        // Set alpha based on your logic, here I'm making it 10% of it's initial value.
+        alpha *= 0.10;
+
+        return new Color (alpha, red, green, blue);
+    }
 
     public void dessinerPoint (Graphics2D dessin) {
 
@@ -75,16 +87,26 @@ public class Balle {
         int cumul = 0;
 
         if(indexFrame % 10 == 0 && vitesseVertical != 0 && vitesseHorizontal != 0){
-            Balle points = new Balle(x, y, diametre);
+            Balle points = new Balle(x, y,vitesseHorizontal/2,vitesseVertical/2,diametre,Color.WHITE);
             listePoints.add(points);
         }
 
         for (Balle point : listePoints) {
             cumul += 1;
-            dessin.setColor(Color.YELLOW);
+            point.x +=point.vitesseHorizontal;
+            point.y +=point.vitesseVertical;
+            Color nouvelleCouleurTransparente = new Color(255,255,255,cumul * 10);
+            dessin.setColor(nouvelleCouleurTransparente);
             dessin.fillOval(point.x, point.y, point.diametre, point.diametre);
 
+//
+//            for(Balle pointTransparent : listePoints){
+//                int opacity = pointTransparent.getCouleurTransparente().getAlpha() - 10;
+//                Color nouvelleCouleurTransparente = new Color(255,255,255,opacity);
+//                dessin.setColor(nouvelleCouleurTransparente);
+//            }
         }
+
         if(cumul == 10){
             Balle premierListePoints = listePoints.get(0);
             listePoints.remove(premierListePoints);
@@ -159,7 +181,13 @@ public class Balle {
         this.listePoints = listePoints;
     }
 
+    public Color getCouleurTransparente() {
+        return couleurTransparente;
+    }
 
+    public void setCouleurTransparente(Color couleurTransparente) {
+        this.couleurTransparente = couleurTransparente;
+    }
 }
 
 

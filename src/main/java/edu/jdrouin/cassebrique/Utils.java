@@ -4,6 +4,8 @@ import java.awt.*;
 
 public class Utils {
 
+    protected Color couleur = new Color(255, 255,255, 100);
+
     public Utils() {
     }
 
@@ -17,5 +19,11 @@ public class Utils {
     }
 
 
+    public Color getCouleur() {
+        return couleur;
+    }
 
+    public void setCouleur(Color couleur) {
+        this.couleur = couleur;
+    }
 }
