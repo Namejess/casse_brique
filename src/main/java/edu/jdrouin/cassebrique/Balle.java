@@ -72,6 +72,7 @@ public class Balle {
     public void dessinerPoint (Graphics2D dessin) {
 
         indexFrame ++;
+        int cumul = 0;
 
         if(indexFrame % 10 == 0 && vitesseVertical != 0 && vitesseHorizontal != 0){
             Balle points = new Balle(x, y, diametre);
@@ -79,8 +80,14 @@ public class Balle {
         }
 
         for (Balle point : listePoints) {
-            dessin.setColor(Color.WHITE);
-            dessin.fillOval(point.x, point.y, point.diametre, point.diametre);;
+            cumul += 1;
+            dessin.setColor(Color.YELLOW);
+            dessin.fillOval(point.x, point.y, point.diametre, point.diametre);
+
+        }
+        if(cumul == 10){
+            Balle premierListePoints = listePoints.get(0);
+            listePoints.remove(premierListePoints);
         }
     }
 
